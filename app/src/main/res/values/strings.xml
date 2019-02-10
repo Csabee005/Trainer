@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Trainer 1.0</string>
+
+    <string name="hey">Hey</string>
+    <string name="trainQuestion">What body parts would you like to train today?</string>
+    <string name="startWorkout">Start workout</string>
 </resources>

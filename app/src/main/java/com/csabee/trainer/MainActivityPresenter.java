@@ -12,7 +12,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public void onShowData(TemperatureData temperatureData) {
-        view.showData(temperatureData);
+    public void onMenuClick() {
+        view.menuClick();
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="7"
+    android:background="@drawable/background_rounded_shape">
+
+    <TextView
+        android:id="@+id/txtExerciseDefinitionName"
+        android:textSize="16sp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"/>
+    <TextView
+        android:id="@+id/txtExerciseDefinitionSession"
+        android:textSize="14sp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textAlignment="center"/>
+    <TextView
+        android:id="@+id/txtExerciseDefinitionRepetition"
+        android:textSize="14sp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textAlignment="center"/>
+    <TextView
+        android:id="@+id/txtExerciseDefinitionWeight"
+        android:textSize="14sp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textAlignment="center"/>
+    <TextView
+        android:id="@+id/txtExerciseDefinitionDuration"
+        android:textSize="14sp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textAlignment="center"/>
+</LinearLayout>
