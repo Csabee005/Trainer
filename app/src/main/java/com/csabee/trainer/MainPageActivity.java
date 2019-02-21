@@ -33,7 +33,8 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
     Button menuButton;
     Spinner spinner;
 
-    private String[] options;
+    private boolean firstUse = true;
+    private String[] options = {"Select category","Bicepsz","Tricepsz","Hát","Láb"};
     private ArrayList<Category> catList;
 
     private ExpandableListView listView;
@@ -52,30 +53,14 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         binding.setUser(userData);
         binding.setPresenter(mainActivityPresenter);
         catList = new ArrayList<Category>();
-        Category bicepsz = new Category("Bicepsz");
-        bicepsz.addExercise("Scott padon kétkezes emelések francia rúddal",5,10,5,25.0);
-        bicepsz.addExercise("Ülve térdhez szorított emelések egy kézzel",4,10,3,15.00);
-        bicepsz.addExercise("Állva két kézzel mellhez húzás",4,10,4,10.00);
-        catList.add(bicepsz);
-        Category tricepsz = new Category("Tricepsz");
-        tricepsz.addExercise("Hát mögé engedés egykezes súlyzóval",4,10,3,7.5);
-        tricepsz.addExercise("Lenyomás csigán",3,8,4,10.0);
-        tricepsz.addExercise("Karnyújtás ülve kézisúlyzóval",4,15,5,10.0);
-        catList.add(tricepsz);
-        Category hat = new Category("Hát");
-        hat.addExercise("Evezés egy kézzel",4,12,3,15.0);
-        hat.addExercise("Mellhez húzás gépnél",4,8,4,25.0);
-        catList.add(hat);
-
-        catList.add(new Category("Láb"));
-        binding.setCategories(bicepsz);
+        binding.setCategoryList(catList);
         createSpinnerOptions();
         initData(catList);
     }
 
     private void createSpinnerOptions() {
         spinner = findViewById(R.id.spnrSelectCategoryMainPage);
-        options = new String[catList.size()];
+        //options = new String[catList.size()];
         int i = 0;
         for (Category category:catList
              ) {
@@ -126,28 +111,36 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            case 0:
-                Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                break;
-            case 1:
-                Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
-                Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                break;
-            case 4:
-                Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                break;
-            case 5:
-                Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                break;
+        if(firstUse){
+            firstUse = false;
+        }
+        else {
+            switch (position) {
+                case 1:
+                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
+                    addBicepsz();
+                    break;
+                case 2:
+                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
+                    addTricepsz();
+                    break;
+                case 3:
+                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
+                    addHat();
+                    break;
+                case 4:
+                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
+                    addLab();
+                    break;
+                case 5:
+                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
+                    break;
+                case 6:
+                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
     }
     @Override
@@ -169,5 +162,38 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         listView.setAdapter(listAdapter);
     }
 
+    public void addBicepsz(){
+        Category bicepsz = new Category("Bicepsz");
+        bicepsz.addExercise("Scott padon kétkezes emelések francia rúddal",5,10,5,25.0);
+        bicepsz.addExercise("Ülve térdhez szorított emelések egy kézzel",4,10,3,15.00);
+        bicepsz.addExercise("Állva két kézzel mellhez húzás",4,10,4,10.00);
+        catList.add(bicepsz);
+        initData(catList);
+    }
+
+    public void addTricepsz(){
+        Category tricepsz = new Category("Tricepsz");
+        tricepsz.addExercise("Hát mögé engedés egykezes súlyzóval",4,10,3,7.5);
+        tricepsz.addExercise("Lenyomás csigán",3,8,4,10.0);
+        tricepsz.addExercise("Karnyújtás ülve kézisúlyzóval",4,15,5,10.0);
+        catList.add(tricepsz);
+        initData(catList);
+    }
+
+    public void addHat(){
+        Category hat = new Category("Hát");
+        hat.addExercise("Evezés egy kézzel",4,12,3,15.0);
+        hat.addExercise("Mellhez húzás gépnél",4,8,4,25.0);
+        catList.add(hat);
+        initData(catList);
+    }
+
+    public void addLab(){
+        Category lab = new Category("Láb");
+        lab.addExercise("Guggolás",3,20,3);
+        lab.addExercise("Egyensúlyozás egy lábon",3,4,3,30,10);
+        catList.add(lab);
+        initData(catList);
+    }
 }
 

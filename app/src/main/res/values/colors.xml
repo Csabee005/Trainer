@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <!-- Dark cerulean #1F487E color for the primary app color -->
+    <color name="colorPrimary">#022F40</color>
+    <!-- Rich black #022F40 color for the primary dark app color -->
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <!-- Almost default blue(ncs) #0090C1 for the accent color -->
+    <color name="colorAccent">#0090C1</color>
+    <!-- Queen blue color choice, slightly darker greenish blue -->
+    <color name="clrQueenBlue">#376996</color>
+    <!-- Livid blue #6290C8, brightest blue for the app to contain -->
+    <color name="clrLividBlue">#6290C8</color>
 </resources>
