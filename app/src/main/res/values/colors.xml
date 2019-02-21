@@ -10,4 +10,6 @@
     <color name="clrQueenBlue">#376996</color>
     <!-- Livid blue #6290C8, brightest blue for the app to contain -->
     <color name="clrLividBlue">#6290C8</color>
+    <!-- Mint cream #F1FFFA a background color for the app -->
+    <color name="colorMintCream">#F1FFFA</color>
 </resources>

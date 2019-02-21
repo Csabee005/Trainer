@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="20dp"
     android:paddingEnd="0dp"
-    android:background="@drawable/background_rounded_shape">
+    android:background="@drawable/background_rounded_shape"
+    android:layout_gravity="center"
+    android:weightSum="2">
 
-    <TextView
-        android:id="@+id/txtCategoryNameMainPage"
-        android:textSize="18sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/txtCategoryNameMainPage"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".6"
+            android:gravity="center_vertical"/>
+        <Button
+            android:id="@+id/btnRemoveCategoryMainPage"
+            android:text="@string/removeCategory"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.4"
+            android:background="@drawable/background_allround_shape_button_red"
+            android:padding="5dp"
+            android:layout_margin="3dp"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:gravity="center"
+            />
 
 </LinearLayout>

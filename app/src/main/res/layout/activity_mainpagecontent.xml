@@ -99,7 +99,7 @@
                         android:layout_height="match_parent"
                         />
                 </LinearLayout>
-                <ExpandableListView
+                <com.idunnololz.widgets.AnimatedExpandableListView
                     android:id="@+id/explvMainPageContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

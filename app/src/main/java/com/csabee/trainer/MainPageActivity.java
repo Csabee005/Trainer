@@ -34,10 +34,11 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
     Spinner spinner;
 
     private boolean firstUse = true;
-    private String[] options = {"Select category","Bicepsz","Tricepsz","Hát","Láb"};
+    private String[] options;
     private ArrayList<Category> catList;
+    private ArrayList<Category> insertedCatList;
 
-    private ExpandableListView listView;
+    private com.idunnololz.widgets.AnimatedExpandableListView listView;
     private ExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<Exercise>> listHash;
@@ -53,15 +54,18 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         binding.setUser(userData);
         binding.setPresenter(mainActivityPresenter);
         catList = new ArrayList<Category>();
+        addLab();addHat();addTricepsz();addBicepsz();
         binding.setCategoryList(catList);
         createSpinnerOptions();
-        initData(catList);
+        insertedCatList = new ArrayList<Category>();
+        initData(insertedCatList);
     }
 
     private void createSpinnerOptions() {
         spinner = findViewById(R.id.spnrSelectCategoryMainPage);
-        //options = new String[catList.size()];
-        int i = 0;
+        options = new String[catList.size()+1];
+        options[0] = "Select category";
+        int i = 1;
         for (Category category:catList
              ) {
             options[i++] = category.getName();
@@ -98,7 +102,6 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
             menuDrawer.closeDrawer(GravityCompat.START);
             //Open the drawer when it's closed
         else menuDrawer.openDrawer(GravityCompat.START);
-        Toast.makeText(this,"you have clicked on the menu icon",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -113,34 +116,21 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(firstUse){
-            firstUse = false;
+        if(!firstUse && insertedCatList.size() < 3){
+            for (int i = 0; i < catList.size();i++){
+                if(catList.get(i).getName().equals(options[position])){
+                    insertedCatList.add(catList.get(i));
+                    initData(insertedCatList);
+                    catList.remove(i);
+                    createSpinnerOptions();
+                }
+            }
+        }
+        else if(insertedCatList.size() == 3){
+            Toast.makeText(this, "Maximum number of categories selected!", Toast.LENGTH_SHORT).show();
         }
         else {
-            switch (position) {
-                case 1:
-                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                    addBicepsz();
-                    break;
-                case 2:
-                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                    addTricepsz();
-                    break;
-                case 3:
-                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                    addHat();
-                    break;
-                case 4:
-                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                    addLab();
-                    break;
-                case 5:
-                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                    break;
-                case 6:
-                    Toast.makeText(this, "You have selected " + options[position], Toast.LENGTH_SHORT).show();
-                    break;
-            }
+            firstUse = false;
         }
     }
     @Override
@@ -148,11 +138,11 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
 
     }
 
-    private void initData(ArrayList<Category> catList) {
+    private void initData(ArrayList<Category> currentList) {
         listView = findViewById(R.id.explvMainPageContent);
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
-        for (Category category:catList
+        for (Category category:currentList
         ) {
             listDataHeader.add(category.getName());
             listHash.put(category.getName(),category.getExercises());
@@ -168,7 +158,6 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         bicepsz.addExercise("Ülve térdhez szorított emelések egy kézzel",4,10,3,15.00);
         bicepsz.addExercise("Állva két kézzel mellhez húzás",4,10,4,10.00);
         catList.add(bicepsz);
-        initData(catList);
     }
 
     public void addTricepsz(){
@@ -177,7 +166,6 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         tricepsz.addExercise("Lenyomás csigán",3,8,4,10.0);
         tricepsz.addExercise("Karnyújtás ülve kézisúlyzóval",4,15,5,10.0);
         catList.add(tricepsz);
-        initData(catList);
     }
 
     public void addHat(){
@@ -185,7 +173,6 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         hat.addExercise("Evezés egy kézzel",4,12,3,15.0);
         hat.addExercise("Mellhez húzás gépnél",4,8,4,25.0);
         catList.add(hat);
-        initData(catList);
     }
 
     public void addLab(){
@@ -193,7 +180,18 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         lab.addExercise("Guggolás",3,20,3);
         lab.addExercise("Egyensúlyozás egy lábon",3,4,3,30,10);
         catList.add(lab);
-        initData(catList);
+    }
+
+    public void removeCategory(String headerTitle){
+        for (int i = 0; i < insertedCatList.size();i++){
+            if(insertedCatList.get(i).getName().equals(headerTitle)){
+                catList.add(insertedCatList.get(i));
+                insertedCatList.remove(i);
+                initData(insertedCatList);
+                createSpinnerOptions();
+                break;
+            }
+        }
     }
 }
 

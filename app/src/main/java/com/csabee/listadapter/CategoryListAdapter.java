@@ -7,16 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.csabee.trainer.Exercise;
+import com.csabee.trainer.MainPageActivity;
 import com.csabee.trainer.R;
+import com.idunnololz.widgets.AnimatedExpandableListView;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class CategoryListAdapter extends BaseExpandableListAdapter {
+public class CategoryListAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String, List<Exercise>> listHashMap;
@@ -34,7 +37,7 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildrenCount(int i) {
+    public int getRealChildrenCount(int i) {
         return listHashMap.get(listDataHeader.get(i)).size();
     }
 
@@ -65,7 +68,7 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        String headerTitle = (String) getGroup(i);
+        final String headerTitle = (String) getGroup(i);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.group_category_name_mainpage, null);
@@ -73,11 +76,18 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) view.findViewById(R.id.txtCategoryNameMainPage);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        Button btnRemoveCategory = view.findViewById(R.id.btnRemoveCategoryMainPage);
+        btnRemoveCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainPageActivity)context).removeCategory(headerTitle);
+            }
+        });
         return view;
     }
 
     @Override
-    public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
+    public View getRealChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         final Exercise exercise = (Exercise) getChild(i, i1);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
