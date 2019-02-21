@@ -53,12 +53,20 @@ public class MainPageActivity extends AppCompatActivity implements MainActivityC
         binding.setPresenter(mainActivityPresenter);
         catList = new ArrayList<Category>();
         Category bicepsz = new Category("Bicepsz");
+        bicepsz.addExercise("Scott padon kétkezes emelések francia rúddal",5,10,5,25.0);
         bicepsz.addExercise("Ülve térdhez szorított emelések egy kézzel",4,10,3,15.00);
         bicepsz.addExercise("Állva két kézzel mellhez húzás",4,10,4,10.00);
         catList.add(bicepsz);
-        catList.add(new Category("Tricepsz"));
-        catList.add(new Category("Hát"));
-        catList.add(new Category("Váll"));
+        Category tricepsz = new Category("Tricepsz");
+        tricepsz.addExercise("Hát mögé engedés egykezes súlyzóval",4,10,3,7.5);
+        tricepsz.addExercise("Lenyomás csigán",3,8,4,10.0);
+        tricepsz.addExercise("Karnyújtás ülve kézisúlyzóval",4,15,5,10.0);
+        catList.add(tricepsz);
+        Category hat = new Category("Hát");
+        hat.addExercise("Evezés egy kézzel",4,12,3,15.0);
+        hat.addExercise("Mellhez húzás gépnél",4,8,4,25.0);
+        catList.add(hat);
+
         catList.add(new Category("Láb"));
         binding.setCategories(bicepsz);
         createSpinnerOptions();

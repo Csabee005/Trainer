@@ -88,7 +88,7 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         TextView txtExerciseSeries = view.findViewById(R.id.txtExerciseDefinitionSession);
         txtExerciseSeries.setText(exercise.getSeries() + " X ");
         TextView txtExerciseRepetitions = view.findViewById(R.id.txtExerciseDefinitionRepetition);
-        txtExerciseRepetitions.setText(exercise.getRepetitions());
+        txtExerciseRepetitions.setText(exercise.getRepetitions() + "");
         if(exercise.getWeight() != null){
             TextView txtExerciseWeight = view.findViewById(R.id.txtExerciseDefinitionWeight);
             txtExerciseWeight.setText(exercise.getWeight() + " kg");

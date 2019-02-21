@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="7"
-    android:background="@drawable/background_rounded_shape">
+    android:background="@drawable/background_allround_shape">
 
     <TextView
         android:id="@+id/txtExerciseDefinitionName"
@@ -18,27 +18,31 @@
         android:textSize="14sp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textAlignment="center"/>
+        android:layout_weight=".75"
+        android:textAlignment="textEnd"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/txtExerciseDefinitionRepetition"
         android:textSize="14sp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textAlignment="center"/>
+        android:layout_weight=".75"
+        android:textAlignment="textStart"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/txtExerciseDefinitionWeight"
         android:textSize="14sp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textAlignment="center"/>
+        android:layout_weight="1.25"
+        android:textAlignment="center"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/txtExerciseDefinitionDuration"
         android:textSize="14sp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textAlignment="center"/>
+        android:layout_weight="1.25"
+        android:textAlignment="center"
+        android:gravity="center"/>
 </LinearLayout>
