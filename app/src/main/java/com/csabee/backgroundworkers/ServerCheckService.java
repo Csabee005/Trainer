@@ -18,9 +18,9 @@ public class ServerCheckService extends Service {
 
     public ServerCheckService(Context applicationContext) {
         super();
+        context = applicationContext;
         notificationCreator = new NotificationCreator(context);
         notificationCreator.createNotificationChannel();
-        context = applicationContext;
         Log.i("HERE", "here I am!");
     }
 

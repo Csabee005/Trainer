@@ -23,12 +23,14 @@ public class CategoryListAdapter extends AnimatedExpandableListView.AnimatedExpa
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String, List<Exercise>> listHashMap;
+    EventListener listener;
 
 
-    public CategoryListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<Exercise>> listHashMap) {
+    public CategoryListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<Exercise>> listHashMap, EventListener listener) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listHashMap = listHashMap;
+        this.listener = listener;
     }
 
     @Override
@@ -80,7 +82,7 @@ public class CategoryListAdapter extends AnimatedExpandableListView.AnimatedExpa
         btnRemoveCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainPageActivity)context).removeCategory(headerTitle);
+                listener.onRemoveEvent(headerTitle);
             }
         });
         return view;
@@ -113,5 +115,9 @@ public class CategoryListAdapter extends AnimatedExpandableListView.AnimatedExpa
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
+    }
+
+    public interface EventListener {
+        void onRemoveEvent(String headerTitle);
     }
 }
