@@ -1,16 +1,12 @@
 package com.csabee.trainer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,24 +14,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.csabee.backgroundworkers.ServerCheckService;
 import com.csabee.listadapter.CategoryListAdapter;
+import com.csabee.sharedpreferences.SaveSharedPreference;
+import com.csabee.sharedpreferences.TrainingDataHandler;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainPageFragment extends Fragment implements AdapterView.OnItemSelectedListener, CategoryListAdapter.EventListener
+public class MainPageFragment extends Fragment implements AdapterView.OnItemSelectedListener, CategoryListAdapter.EventListener, View.OnClickListener
 {
-
-    private DrawerLayout menuDrawer;
-    Button menuButton;
     Spinner spinner;
-
-    Intent serviceIntent;
-    private ServerCheckService checkService;
+    Button btnStartWorkout;
 
     private com.idunnololz.widgets.AnimatedExpandableListView listView;
     private ExpandableListAdapter listAdapter;
@@ -53,9 +49,7 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View rootView =  inflater.inflate(R.layout.fragment_mainpage, container, false);
-        // Inflate the layout for this fragment
-        return rootView;
+        return inflater.inflate(R.layout.fragment_mainpage, container, false);
     }
 
     @Override
@@ -63,11 +57,17 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
         super.onActivityCreated(savedInstanceState);
 
         User userData = new User("Magyar Csaba");
-        catList = new ArrayList<Category>();
+        catList = new ArrayList<>();
         addLab();addHat();addTricepsz();addBicepsz();
         createSpinnerOptions();
-        insertedCatList = new ArrayList<Category>();
+        insertedCatList = new ArrayList<>();
         initData(insertedCatList);
+        userSetup(userData);
+    }
+
+    private void userSetup(@NonNull User userData) {
+        TextView userName = getView().findViewById(R.id.txtProfileNameMainPageFragment);
+        userName.setText(userData.getName());
     }
 
     private void createSpinnerOptions() {
@@ -82,7 +82,7 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.support_simple_spinner_dropdown_item,options);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener)this);
+        spinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -99,6 +99,7 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
         }
         else if(insertedCatList.size() == 3){
             Toast.makeText(getContext(), "Maximum number of categories selected!", Toast.LENGTH_SHORT).show();
+            parent.setSelection(0);
         }
         else {
             firstUse = false;
@@ -109,7 +110,9 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
 
     }
 
-    private void initData(ArrayList<Category> currentList) {
+    private void initData(@NonNull ArrayList<Category> currentList) {
+        btnStartWorkout = getView().findViewById(R.id.btnStartWorkoutMainPageFragment);
+        btnStartWorkout.setOnClickListener(this);
         listView = getView().findViewById(R.id.explvMainPageContent);
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
@@ -168,5 +171,19 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
     @Override
     public void onRemoveEvent(String headerTitle) {
         removeCategory(headerTitle);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnStartWorkoutMainPageFragment:
+                saveAsJson(insertedCatList);
+                getContext().startActivity(new Intent(getContext(), WorkoutActivity.class));
+                break;
+        }
+    }
+
+    private void saveAsJson(ArrayList<Category> insertedCatList) {
+        TrainingDataHandler.saveCurrentTrainingData(getContext(),insertedCatList);
     }
 }

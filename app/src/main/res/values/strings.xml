@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Trainer 1.0</string>
 
-    <!-- Strings used in the MainPage -->
+    <!-- Strings used in the MainPage fragment -->
     <string name="hey">Hey</string>
     <string name="trainQuestion">What body parts or categories would you like to train today?</string>
     <string name="startWorkout">Start workout</string>
@@ -12,5 +12,14 @@
     <string name="goals">Goals</string>
     <string name="trainingCategories">Training categories</string>
     <string name="history">History</string>
+    
+    <!-- Strings used in the workout activity -->
+    <string name="workout">Workout</string>
+    <string name="x">X</string>
+    <string name="workoutInProgress">Workout in progress</string>
+    <string name="duration">Duration: </string>
+    <string name="progress">Progress: </string>
+    <string name="current">Current</string>
+    <string name="remaining">Remaining</string>
 
 </resources>
