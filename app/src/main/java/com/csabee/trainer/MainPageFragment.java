@@ -177,10 +177,21 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnStartWorkoutMainPageFragment:
-                saveAsJson(insertedCatList);
-                getContext().startActivity(new Intent(getContext(), WorkoutActivity.class));
+                if(isWorkoutPresent()) {
+                    saveAsJson(insertedCatList);
+                    getContext().startActivity(new Intent(getContext(), WorkoutActivity.class));
+                }
+                else{
+                    Toast.makeText(getContext(), "Please select at lest one category!", Toast.LENGTH_LONG).show();}
                 break;
         }
+    }
+
+    private boolean isWorkoutPresent() {
+        if(insertedCatList.size() > 0){
+            return true;
+        }
+        return false;
     }
 
     private void saveAsJson(ArrayList<Category> insertedCatList) {

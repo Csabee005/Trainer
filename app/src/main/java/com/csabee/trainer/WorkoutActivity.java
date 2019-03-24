@@ -57,7 +57,7 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         String[] workoutArray = new String[noOfExercises];
         progressBar.setMax(noOfExercises+1);
         checkProgressBar();
-        setTimer();
+
 
         int j = -1;
         for(int i = 0; i < workoutData.size();i++){
@@ -78,24 +78,27 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setTimer() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Timer t = new Timer();
+                t.scheduleAtFixedRate(new TimerTask() {
+                                          int elapsedSeconds = 0;
+                                          @Override
+                                          public void run() {
+                                              elapsedSeconds += 1;
+                                              if(elapsedSeconds > 59){
+                                                  int elapsedMin = elapsedSeconds/60;
+                                                  int elapsedSec = elapsedSeconds-(elapsedMin*60);
+                                                  txtExerciseDurationOngoingWorkout.setText(elapsedMin + " : " + elapsedSec);
+                                              }else{ txtExerciseDurationOngoingWorkout.setText(elapsedSeconds + " s");}
+                                          }
 
-        Timer t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-                                  int elapsedSeconds = 0;
-                                  @Override
-                                  public void run() {
-                                      elapsedSeconds += 1;
-                                      if(elapsedSeconds > 59){
-                                          int elapsedMin = elapsedSeconds/60;
-                                          int elapsedSec = elapsedSeconds-(elapsedMin*60);
-                                          txtExerciseDurationOngoingWorkout.setText("M:" + elapsedMin + "S:" + elapsedSec);
-                                      }
-                                      txtExerciseDurationOngoingWorkout.setText(elapsedSeconds + " s");
-                                  }
-
-                              },
-                0,
-                1000);
+                                      },
+                        0,
+                        1000);
+            }
+        });
     }
 
 
