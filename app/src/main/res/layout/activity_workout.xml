@@ -14,20 +14,22 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.8"
-            android:weightSum="10">
+            android:weightSum="10"
+            android:background="@drawable/background_caution">
             <Button
                 android:id="@+id/btnExitOngoingWorkout"
                 android:text="@string/x"
                 android:textColor="@android:color/white"
-                android:textSize="40sp"
+                android:textSize="32sp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:background="@android:color/holo_red_dark"/>
             <TextView
                 android:text="@string/workoutInProgress"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold|italic"
+                android:textColor="@android:color/black"
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -38,9 +40,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.2"
-            android:weightSum="4">
+            android:weightSum="4"
+            android:background="@color/clrQueenBlue">
             <TextView
                 android:text="@string/duration"
+                android:textColor="@android:color/white"
                 android:gravity="center_vertical"
                 android:textAlignment="textEnd"
                 android:layout_width="0dp"
@@ -49,6 +53,7 @@
                 tools:ignore="RtlCompat" />
             <TextView
                 android:id="@+id/txtExerciseDurationOngoingWorkout"
+                android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -59,13 +64,16 @@
                 android:background="@android:color/black"/>
             <TextView
                 android:text="@string/progress"
+                android:textColor="@android:color/white"
                 android:gravity="center_vertical"
                 android:textAlignment="textEnd"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                tools:ignore="RtlCompat" />
             <TextView
                 android:id="@+id/txtExerciseProgressOngoinWorkout"
+                android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -77,22 +85,92 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progressTint="@android:color/holo_red_dark"
             android:max="50"
-            android:progress="36"/>
-
-
+            android:progress="5"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:layout_margin="10dp"
+        android:background="@drawable/background_allround_shape">
 
-    </LinearLayout>
-    <ExpandableListView
+        <Button
+            android:id="@+id/btnSkipExerciseOngoingWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/skip"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_outline_red"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btnSkipExerciseOngoingWorkout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/current"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnExerciseDoneOngoingWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btnSkipExerciseOngoingWorkout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="14dp"
+            android:text="@string/done"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:background="@drawable/button_outline_green"/>
+
+        <TextView
+            android:id="@+id/txtCurrentExerciseOngoingWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSkipExerciseOngoingWorkout"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Exercise 6  4 x 10  6kg  120s"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:text="@string/remaining"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"/>
+        android:layout_weight=".75"/>
+    <ListView
+        android:id="@+id/lvWorkoutActivity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5.25"
+        android:background="@drawable/background_allround_shape"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"/>
 
 
 </LinearLayout>

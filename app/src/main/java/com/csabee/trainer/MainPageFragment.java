@@ -186,4 +186,17 @@ public class MainPageFragment extends Fragment implements AdapterView.OnItemSele
     private void saveAsJson(ArrayList<Category> insertedCatList) {
         TrainingDataHandler.saveCurrentTrainingData(getContext(),insertedCatList);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        catList = new ArrayList<>();
+        insertedCatList = new ArrayList<>();
+        addLab();addHat();addTricepsz();addBicepsz();
+        createSpinnerOptions();
+        listDataHeader = new ArrayList<>();
+        listHash = new HashMap<>();
+        listAdapter = new CategoryListAdapter(getContext(),listDataHeader,listHash, this);
+        listView.setAdapter(listAdapter);
+    }
 }

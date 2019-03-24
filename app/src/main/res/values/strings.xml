@@ -20,6 +20,8 @@
     <string name="duration">Duration: </string>
     <string name="progress">Progress: </string>
     <string name="current">Current</string>
-    <string name="remaining">Remaining</string>
+    <string name="remaining">Remaining exercises</string>
+    <string name="skip">Skip</string>
+    <string name="done">Done</string>
 
 </resources>
