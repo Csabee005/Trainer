@@ -9,20 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.csabee.listadapter.CategoryListWorkoutAdapter;
 import com.csabee.sharedpreferences.TrainingDataHandler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WorkoutActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,6 +26,7 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<Category> workoutData;
     private int noOfExercises,noOfExercisesDone;
     private Button btnExerciseDoneOngoingWorkout,btnSkipExerciseOngoingWorkout,btnExitOngoingWorkout;
+    private TextView txtExerciseDurationOngoingWorkout,txtExerciseProgressOngoinWorkout;
     ProgressBar progressBar;
     private TextView txtCurrentExerciseOngoingWorkout;
     private boolean isLastExercise;
@@ -48,6 +45,8 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         txtCurrentExerciseOngoingWorkout = findViewById(R.id.txtCurrentExerciseOngoingWorkout);
         btnExerciseDoneOngoingWorkout  = findViewById(R.id.btnExerciseDoneOngoingWorkout);
         btnSkipExerciseOngoingWorkout = findViewById(R.id.btnSkipExerciseOngoingWorkout);
+        txtExerciseDurationOngoingWorkout = findViewById(R.id.txtExerciseDurationOngoingWorkout);
+        txtExerciseProgressOngoinWorkout = findViewById(R.id.txtExerciseProgressOngoinWorkout);
         btnExitOngoingWorkout = findViewById(R.id.btnExitOngoingWorkout);
         progressBar = findViewById(R.id.prgbarWorkoutActivity);
         btnExerciseDoneOngoingWorkout.setOnClickListener(this);
@@ -58,6 +57,7 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         String[] workoutArray = new String[noOfExercises];
         progressBar.setMax(noOfExercises+1);
         checkProgressBar();
+        setTimer();
 
         int j = -1;
         for(int i = 0; i < workoutData.size();i++){
@@ -77,6 +77,28 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         lvWorkoutActivity.setAdapter(mAdapter);
     }
 
+    private void setTimer() {
+
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+                                  int elapsedSeconds = 0;
+                                  @Override
+                                  public void run() {
+                                      elapsedSeconds += 1;
+                                      if(elapsedSeconds > 59){
+                                          int elapsedMin = elapsedSeconds/60;
+                                          int elapsedSec = elapsedSeconds-(elapsedMin*60);
+                                          txtExerciseDurationOngoingWorkout.setText("M:" + elapsedMin + "S:" + elapsedSec);
+                                      }
+                                      txtExerciseDurationOngoingWorkout.setText(elapsedSeconds + " s");
+                                  }
+
+                              },
+                0,
+                1000);
+    }
+
+
     private void checkProgressBar() {
         if(noOfExercisesDone < getExerciseNumber()/3){
             Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
@@ -91,6 +113,7 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         }
         progressBar.setProgress(noOfExercisesDone+1,true);
         progressBar.setProgress(noOfExercisesDone);
+        txtExerciseProgressOngoinWorkout.setText( (noOfExercisesDone+1) + "  /  " + getExerciseNumber());
     }
 
     private int getExerciseNumber() {
