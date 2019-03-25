@@ -3,6 +3,8 @@ package com.csabee.trainer;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +59,7 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         String[] workoutArray = new String[noOfExercises];
         progressBar.setMax(noOfExercises+1);
         checkProgressBar();
+        setTimer();
 
 
         int j = -1;
@@ -78,27 +81,7 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setTimer() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Timer t = new Timer();
-                t.scheduleAtFixedRate(new TimerTask() {
-                                          int elapsedSeconds = 0;
-                                          @Override
-                                          public void run() {
-                                              elapsedSeconds += 1;
-                                              if(elapsedSeconds > 59){
-                                                  int elapsedMin = elapsedSeconds/60;
-                                                  int elapsedSec = elapsedSeconds-(elapsedMin*60);
-                                                  txtExerciseDurationOngoingWorkout.setText(elapsedMin + " : " + elapsedSec);
-                                              }else{ txtExerciseDurationOngoingWorkout.setText(elapsedSeconds + " s");}
-                                          }
-
-                                      },
-                        0,
-                        1000);
-            }
-        });
+        new AsyncWorkoutTimer().execute("");
     }
 
 
@@ -114,8 +97,12 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
             Drawable progressDrawable = progressBar.getProgressDrawable().mutate();
             progressDrawable.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
         }
-        progressBar.setProgress(noOfExercisesDone+1,true);
-        progressBar.setProgress(noOfExercisesDone);
+        if(Build.VERSION.SDK_INT < 24){
+            progressBar.setProgress(noOfExercisesDone);
+        }
+        else{
+            progressBar.setProgress(noOfExercisesDone+1,true);
+        }
         txtExerciseProgressOngoinWorkout.setText( (noOfExercisesDone+1) + "  /  " + getExerciseNumber());
     }
 
@@ -144,7 +131,7 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 else if(j == noOfExercisesDone){
                     txtCurrentExerciseOngoingWorkout.setText(exercise.getName() + "\n" + exercise.getSeries() + " X "+ exercise.getRepetitions() + " "
-                            + exercise.getWeight() + "kg " + exercise.getDuration() + "s");
+                            + exercise.getWeight() + " kg " + exercise.getDuration() + "s");
                 }
                 j++;
             }
@@ -172,13 +159,45 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.btnSkipExerciseOngoingWorkout:
-                Toast.makeText(this, "Skipping exercise.", Toast.LENGTH_LONG).show();
-                getNextExercise();
+                if(!isLastExercise){
+                    Toast.makeText(this, "Skipping exercise.", Toast.LENGTH_SHORT).show();
+                    getNextExercise();
+                }
+                else{Toast.makeText(this, "Congratulations on finishing the workout!!!", Toast.LENGTH_LONG).show();finish();}
                 break;
             case R.id.btnExitOngoingWorkout:
                 Toast.makeText(this, "You chose to exit the workout.", Toast.LENGTH_LONG).show();
                 finish();
                 break;
+        }
+    }
+
+    public class AsyncWorkoutTimer extends AsyncTask<String,Integer,String> {
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            if(values[0] > 59){
+                int elapsedMin = values[0]/60;
+                int elapsedSec = values[0]-(elapsedMin*60);
+                txtExerciseDurationOngoingWorkout.setText(elapsedMin + " : " + elapsedSec);
+            }else{ txtExerciseDurationOngoingWorkout.setText(values[0] + " s");}
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            Timer t = new Timer();
+            t.scheduleAtFixedRate(new TimerTask() {
+                                      int elapsedSeconds = 0;
+                                      @Override
+                                      public void run() {
+                                          elapsedSeconds += 1;
+                                          publishProgress(elapsedSeconds);
+                                      }
+
+                                  },
+                    0,
+                    1000);
+            return null;
         }
     }
 }
